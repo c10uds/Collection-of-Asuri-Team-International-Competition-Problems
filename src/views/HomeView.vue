@@ -12,15 +12,15 @@
         </div>
       </a-tab-pane>
       <a-tab-pane
+        v-for="(item, key) in competitionArray"
         :key="key"
         :title="item"
-        v-for="(item, key) in competitionArray"
       >
         <a-tabs
           :default-active-key="-1"
+          lazy-load
           position="left"
           style="margin-top: 2rem"
-          lazy-load
         >
           <a-tab-pane :key="-1" title="Description">
             <a-descriptions>
@@ -38,24 +38,24 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <a-tab-pane :key="k" :title="type" v-for="(type, k) in typeArray">
+          <a-tab-pane v-for="(type, k) in typeArray" :key="k" :title="type">
             <div style="display: flex">
               <a-card
-                class="question-card"
-                :title="question.challName"
-                hoverable
                 v-for="(question, idx) in challMap.get(item).get(type)"
                 :key="idx"
+                :title="question.challName"
+                class="question-card"
+                hoverable
               >
                 <template #extra>
                   <a-link
-                    :href="question.fileName"
                     v-if="question.fileName.startsWith(`http`)"
+                    :href="question.fileName"
                     >链接
                   </a-link>
                   <a-link
-                    :href="getFilePath(item, type, question.fileName)"
                     v-else
+                    :href="getFilePath(item, type, question.fileName)"
                     >{{ question.fileName }}
                   </a-link>
                 </template>
